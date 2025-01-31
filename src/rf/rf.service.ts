@@ -7,7 +7,7 @@ export class RfService implements OnModuleInit, OnModuleDestroy {
 
   constructor() {
     this.chip = new Chip(0); // Use GPIO chip 0
-    this.rfReceiver = this.chip.getLine(27); // GPIO 27
+    this.rfReceiver = new Line(this.chip, 27); // GPIO 27
     this.rfReceiver.requestInputMode();
   }
 
