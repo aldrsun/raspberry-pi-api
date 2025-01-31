@@ -29,6 +29,7 @@ export class RfService implements OnModuleInit, OnModuleDestroy {
         lastTime = currentTime;
       }
     }
+    console.log('Listener Stopped');
   }
 
   onModuleDestroy() {
