@@ -1,6 +1,7 @@
 import { Chip, Line } from 'node-libgpiod';
 import { OnModuleInit, OnModuleDestroy } from '@nestjs/common';
 import * as process from 'node:process';
+import { endWith } from 'rxjs';
 
 export class RfService implements OnModuleInit, OnModuleDestroy {
   private chip: Chip;
@@ -26,6 +27,8 @@ export class RfService implements OnModuleInit, OnModuleDestroy {
         );
         lastValue = value;
         lastTime = currentTime;
+      } else {
+        console.log('.', endWith(''));
       }
     }, 0); // 0ms interval ensures the event loop isn't blocked
     console.log('Listener Stopped');
