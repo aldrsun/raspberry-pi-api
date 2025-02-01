@@ -13,7 +13,11 @@ export class ButtonCallService {
       return;
     }
 
-    const [tableName, { call_code }] = tableEntry;
-    console.log(tableName, call_code);
+    const [tableName, { call_code, cancel_code }] = tableEntry;
+    if (code == call_code) {
+      console.log('New Call!', tableName, call_code);
+    } else if (code == cancel_code) {
+      console.log('Cancel Call!', tableName, cancel_code);
+    }
   }
 }
