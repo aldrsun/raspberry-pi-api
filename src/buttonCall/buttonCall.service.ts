@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { format } from 'date-fns';
 import { tableCodes } from './tableCodes.mapping';
 
@@ -10,7 +10,7 @@ export class ButtonCallService {
     );
     if (!tableEntry) {
       console.log('Button code not found');
-      return;
+      throw new HttpException('Button Not Found.', HttpStatus.NOT_FOUND);
     }
 
     const [tableName, { call_code, cancel_code }] = tableEntry;
@@ -19,5 +19,7 @@ export class ButtonCallService {
     } else if (code == cancel_code) {
       console.log('Cancel Call!', tableName, cancel_code);
     }
+
+    return HttpStatus.OK;
   }
 }
