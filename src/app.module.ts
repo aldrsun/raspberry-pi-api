@@ -4,8 +4,8 @@ import { AppService } from './app.service';
 import { ButtonCallModule } from './buttonCall/buttonCall.module';
 
 @Module({
-  imports: [],
+  imports: [ButtonCallModule],
   controllers: [AppController],
-  providers: [AppService, ButtonCallModule],
+  providers: [AppService],
 })
 export class AppModule {}
