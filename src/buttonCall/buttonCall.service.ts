@@ -16,12 +16,14 @@ export class ButtonCallService {
     }
 
     const [tableName, { call_code, cancel_code }] = tableEntry;
+    const apiUrl =
+      process.env.REMOTE_HOST + ':' + process.env.REMOTE_PORT + '/button-calls';
     if (code == call_code) {
       console.log('New Call!', tableName, call_code);
       try {
         const response = lastValueFrom(
           this.httpService.post(
-            'http://localhost:3000/button-calls',
+            apiUrl,
             { location: '2', tableName: tableName },
             {
               headers: {
@@ -41,7 +43,7 @@ export class ButtonCallService {
       try {
         const response = lastValueFrom(
           this.httpService.patch(
-            'http://localhost:3000/button-calls',
+            apiUrl,
             { location: '2', tableName: tableName },
             {
               headers: { 'Content-Type': 'application/json' },
