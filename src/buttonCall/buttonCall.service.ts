@@ -14,6 +14,7 @@ export class ButtonCallService {
       console.log('Button code not found');
       throw new HttpException('Button Not Found.', HttpStatus.NOT_FOUND);
     }
+    console.log('Button Found.');
 
     const [tableName, { call_code, cancel_code }] = tableEntry;
     const apiUrl =
@@ -21,7 +22,7 @@ export class ButtonCallService {
     if (code == call_code) {
       console.log('New Call!', tableName, call_code);
       try {
-        const response = lastValueFrom(
+        await lastValueFrom(
           this.httpService.post(
             apiUrl,
             { location: '2', tableName: tableName },
@@ -32,11 +33,15 @@ export class ButtonCallService {
               },
             },
           ),
-        );
-
-        console.log(response);
+        ).then((r) => {
+          console.log(r.data);
+        });
       } catch (error) {
-        console.log(error);
+        console.log(error.status);
+        throw new HttpException(
+          'Error: Something went wrong',
+          HttpStatus.INTERNAL_SERVER_ERROR,
+        );
       }
     } else if (code == cancel_code) {
       console.log('Cancel Call!', tableName, cancel_code);
@@ -53,7 +58,7 @@ export class ButtonCallService {
           console.log(r.data);
         });
       } catch (error) {
-        console.log(error.status ?? 'Error');
+        console.log(error.status);
         throw new HttpException(
           'Error: Something went wrong',
           HttpStatus.INTERNAL_SERVER_ERROR,
