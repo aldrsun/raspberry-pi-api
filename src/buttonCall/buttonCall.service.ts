@@ -6,7 +6,7 @@ import { lastValueFrom } from 'rxjs';
 @Injectable()
 export class ButtonCallService {
   constructor(private readonly httpService: HttpService) {}
-  handleButtonCall(code: number) {
+  async handleButtonCall(code: number) {
     const tableEntry = Object.entries(tableCodes).find(
       ([, value]) => value.call_code === code || value.cancel_code === code,
     );
@@ -41,7 +41,7 @@ export class ButtonCallService {
     } else if (code == cancel_code) {
       console.log('Cancel Call!', tableName, cancel_code);
       try {
-        const response = lastValueFrom(
+        await lastValueFrom(
           this.httpService.patch(
             apiUrl,
             { location: '2', tableName: tableName },
@@ -49,11 +49,15 @@ export class ButtonCallService {
               headers: { 'Content-Type': 'application/json' },
             },
           ),
-        );
-
-        console.log(response);
+        ).then((r) => {
+          console.log(r.data);
+        });
       } catch (error) {
         console.log(error);
+        throw new HttpException(
+          'Error: Something went wrong',
+          HttpStatus.INTERNAL_SERVER_ERROR,
+        );
       }
     }
 
