@@ -21,7 +21,7 @@ export class ButtonCallService {
       try {
         const response = lastValueFrom(
           this.httpService.post(
-            'http://localhost:3001/button-calls',
+            'http://localhost:3000/button-calls',
             { location: '2', tableName: tableName },
             {
               headers: {
@@ -41,7 +41,7 @@ export class ButtonCallService {
       try {
         const response = lastValueFrom(
           this.httpService.patch(
-            'http://localhost:3001/button-calls',
+            'http://localhost:3000/button-calls',
             { location: '2', tableName: tableName },
             {
               headers: { 'Content-Type': 'application/json' },
