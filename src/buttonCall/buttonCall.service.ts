@@ -12,6 +12,7 @@ export class ButtonCallService {
     );
     if (!tableEntry) {
       console.log('Button code not found');
+      console.log('code: ', code);
       throw new HttpException('Button Not Found.', HttpStatus.NOT_FOUND);
     }
     console.log('Button Found.');
