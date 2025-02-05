@@ -24,7 +24,10 @@ export class ButtonCallService {
             'http://localhost:3001/button-calls',
             { location: '2', tableName: tableName },
             {
-              headers: { 'Content-Type': 'application/json' },
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: process.env.AUTH_TOKEN,
+              },
             },
           ),
         );
