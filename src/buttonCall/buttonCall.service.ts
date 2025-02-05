@@ -53,7 +53,7 @@ export class ButtonCallService {
           console.log(r.data);
         });
       } catch (error) {
-        console.log(error);
+        console.log(error.status ?? 'Error');
         throw new HttpException(
           'Error: Something went wrong',
           HttpStatus.INTERNAL_SERVER_ERROR,
