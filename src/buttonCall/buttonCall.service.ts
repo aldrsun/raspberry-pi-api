@@ -52,7 +52,10 @@ export class ButtonCallService {
             apiUrl,
             { location: '2', tableName: tableName },
             {
-              headers: { 'Content-Type': 'application/json' },
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: process.env.AUTH_TOKEN
+              },
             },
           ),
         ).then((r) => {
