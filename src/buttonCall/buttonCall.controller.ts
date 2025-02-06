@@ -1,5 +1,11 @@
 import { ButtonCallService } from './buttonCall.service';
-import { Controller, Body, Post, HttpException, HttpStatus } from '@nestjs/common';
+import {
+  Controller,
+  Body,
+  Post,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common';
 
 @Controller('button-calls')
 export class ButtonCallController {
@@ -11,5 +17,16 @@ export class ButtonCallController {
       throw new HttpException('Invalid Code', HttpStatus.BAD_REQUEST);
     }
     return this.buttonCallService.handleButtonCall(body.code);
+  }
+
+  @Post('/transmit')
+  transmitButtonCall(@Body() body: { location: number; tableName: string }) {
+    if (!body.tableName || !body.location) {
+      throw new HttpException(
+        'Invalid table name or location',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    return this.buttonCallService.transmit(body.location, body.tableName);
   }
 }
