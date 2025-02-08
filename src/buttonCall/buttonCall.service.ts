@@ -35,7 +35,7 @@ export class ButtonCallService {
           this.httpService
             .post(
               this.remoteUrl,
-              { location: '2', tableName: tableName },
+              { location: 2, tableName: tableName },
               {
                 headers: {
                   'Content-Type': 'application/json',
