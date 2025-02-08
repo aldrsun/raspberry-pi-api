@@ -26,7 +26,7 @@ export class ButtonCallService {
     const [tableName, { call_code, cancel_code }] = tableEntry;
     if (code == call_code) {
       console.log(
-        '\x1b[32mNew call to \x1b[1;33mButton %s\x1b[0;32m with code \x1b[0m%s',
+        '\x1b[32mNew call to \x1b[1;32mButton \x1b[1;33m%s\x1b[0;32m with code \x1b[0m%s',
         tableName,
         call_code,
       );
@@ -63,7 +63,7 @@ export class ButtonCallService {
       }
     } else if (code == cancel_code) {
       console.log(
-        '\x1b[32mNew cancel to \x1b[1;33mButton %s\x1b[32m with code\x1b[0m%s',
+        '\x1b[32mNew cancel to \x1b[1;32mButton \x1b[1;33m%s\x1b[0;32m with code\x1b[0m%s',
         tableName,
         cancel_code,
       );
