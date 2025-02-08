@@ -69,7 +69,7 @@ export class ButtonCallService {
           this.httpService
             .patch(
               this.remoteUrl,
-              { location: location, tableName: tableName },
+              { location: 2, tableName: tableName },
               {
                 headers: {
                   'Content-Type': 'application/json',
