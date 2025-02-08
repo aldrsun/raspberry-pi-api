@@ -13,20 +13,34 @@ export class ButtonCallService {
     this.remoteUrl = process.env.REMOTE_URL ?? '';
   }
 
+  private getCurrentTime(): string {
+    const now = new Date();
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+
+    return `[${hours}:${minutes}:${seconds}]`;
+  }
+
   async handleButtonCall(code: number) {
     const tableEntry = Object.entries(tableCodes).find(
       ([, value]) => value.call_code === code || value.cancel_code === code,
     );
     if (!tableEntry) {
-      console.log('\x1b[1;31m%s\x1b[0m', 'Button code not found');
-      console.log('Code: \x1b[1;33m%s\x1b[0m', code);
+      console.log(
+        '%s \x1b[1;31m%s\x1b[0m',
+        this.getCurrentTime(),
+        'Button code not found',
+      );
+      console.log('%s Code: \x1b[1;33m%s\x1b[0m', this.getCurrentTime(), code);
       throw new HttpException('Button Not Found.', HttpStatus.NOT_FOUND);
     }
 
     const [tableName, { call_code, cancel_code }] = tableEntry;
     if (code == call_code) {
       console.log(
-        '\x1b[32mNew call to \x1b[1;32mButton \x1b[1;33m%s\x1b[0;32m with code \x1b[0m%s',
+        '%s \x1b[32mNew call to \x1b[1;32mButton \x1b[1;33m%s\x1b[0;32m with code \x1b[0m%s',
+        this.getCurrentTime(),
         tableName,
         call_code,
       );
@@ -46,13 +60,15 @@ export class ButtonCallService {
             .pipe(timeout(5000)),
         ).then((r) => {
           console.log(
-            '\x1b[1;32m%s\x1b[0m',
+            '%s \x1b[1;32m%s\x1b[0m',
+            this.getCurrentTime(),
             'Server handled the call successfully.',
           );
         });
       } catch (error) {
         console.log(
-          '\x1b[1;31mError from remote host \x1b[0;31m%s: %s\x1b[0m',
+          '%s \x1b[1;31mError from remote host \x1b[0;31m%s: %s\x1b[0m',
+          this.getCurrentTime(),
           error.status ?? 'error status undefined',
           error.message ?? 'error message undefined',
         );
@@ -63,7 +79,8 @@ export class ButtonCallService {
       }
     } else if (code == cancel_code) {
       console.log(
-        '\x1b[32mNew cancel to \x1b[1;32mButton \x1b[1;33m%s\x1b[0;32m with code\x1b[0m%s',
+        '%s \x1b[32mNew cancel to \x1b[1;32mButton \x1b[1;33m%s\x1b[0;32m with code\x1b[0m%s',
+        this.getCurrentTime(),
         tableName,
         cancel_code,
       );
@@ -83,13 +100,15 @@ export class ButtonCallService {
             .pipe(timeout(10000)),
         ).then((r) => {
           console.log(
-            '\x1b[1;32m%s\x1b[0m',
+            '%s \x1b[1;32m%s\x1b[0m',
+            this.getCurrentTime(),
             'Server handled the cancel successfully.',
           );
         });
       } catch (error) {
         console.log(
-          '\x1b[1;31mError from remote host \x1b[0;31m%s: %s\x1b[0m',
+          '%s \x1b[1;31mError from remote host \x1b[0;31m%s: %s\x1b[0m',
+          this.getCurrentTime(),
           error.status ?? 'error status undefined',
           error.message ?? 'error message undefined',
         );
@@ -114,10 +133,7 @@ export class ButtonCallService {
     if (!tableEntry) {
       throw new HttpException('Unsupported table', HttpStatus.NOT_FOUND);
     }
-    console.log(tableEntry);
-    console.log(this.transmitUrl);
     try {
-      console.log(this.transmitUrl);
       await lastValueFrom(
         this.httpService
           .post(
@@ -135,7 +151,8 @@ export class ButtonCallService {
       });
     } catch (error) {
       console.log(
-        '\x1b[32mError from local transmit host \x1b[1;31m%s: %s\x1b[0m',
+        '%s \x1b[32mError from local transmit host \x1b[1;31m%s: %s\x1b[0m',
+        this.getCurrentTime(),
         error.status ?? 'error status undefined',
         error.message ?? 'error message undefined',
       );
