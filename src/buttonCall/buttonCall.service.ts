@@ -26,7 +26,7 @@ export class ButtonCallService {
     const [tableName, { call_code, cancel_code }] = tableEntry;
     if (code == call_code) {
       console.log(
-        '\x1b[32mNew call to \x1b[1:33mButton %s\x1b[0:32m with code \x1b[0m%s',
+        '\x1b[32mNew call to \x1b[1;33mButton %s\x1b[0;32m with code \x1b[0m%s',
         tableName,
         call_code,
       );
@@ -45,11 +45,14 @@ export class ButtonCallService {
             )
             .pipe(timeout(5000)),
         ).then((r) => {
-          console.log('\x1b[1;32m%s\x1b[0m', 'Server handled the call successfully.');
+          console.log(
+            '\x1b[1;32m%s\x1b[0m',
+            'Server handled the call successfully.',
+          );
         });
       } catch (error) {
         console.log(
-          '\x1b[32mError from remote host \x1b[1:31m%s: %s\x1b[0m',
+          '\x1b[32mError from remote host \x1b[1;31m%s: %s\x1b[0m',
           error.status ?? 'error status undefined',
           error.message ?? 'error message undefined',
         );
@@ -60,7 +63,7 @@ export class ButtonCallService {
       }
     } else if (code == cancel_code) {
       console.log(
-        '\x1b[32mNew cancel to \x1b[1:33mButton %s\x1b[32m with code\x1b[0m%s',
+        '\x1b[32mNew cancel to \x1b[1;33mButton %s\x1b[32m with code\x1b[0m%s',
         tableName,
         cancel_code,
       );
@@ -79,11 +82,14 @@ export class ButtonCallService {
             )
             .pipe(timeout(10000)),
         ).then((r) => {
-          console.log('\x1b[1;32m%s\x1b[0m', 'Server handled the cancel successfully.');
+          console.log(
+            '\x1b[1;32m%s\x1b[0m',
+            'Server handled the cancel successfully.',
+          );
         });
       } catch (error) {
         console.log(
-          '\x1b[32mError from remote host \x1b[1:31m%s: %s\x1b[0m',
+          '\x1b[32mError from remote host \x1b[1;31m%s: %s\x1b[0m',
           error.status ?? 'error status undefined',
           error.message ?? 'error message undefined',
         );
@@ -129,7 +135,7 @@ export class ButtonCallService {
       });
     } catch (error) {
       console.log(
-        '\x1b[32mError from local transmit host \x1b[1:31m%s: %s\x1b[0m',
+        '\x1b[32mError from local transmit host \x1b[1;31m%s: %s\x1b[0m',
         error.status ?? 'error status undefined',
         error.message ?? 'error message undefined',
       );
