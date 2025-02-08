@@ -18,15 +18,18 @@ export class ButtonCallService {
       ([, value]) => value.call_code === code || value.cancel_code === code,
     );
     if (!tableEntry) {
-      console.log('Button code not found');
-      console.log('code: ', code);
+      console.log('\x1b[1;31m%s\x1b[0m', 'Button code not found');
+      console.log('Code: \x1b[1;33m%s\x1b[0m', code);
       throw new HttpException('Button Not Found.', HttpStatus.NOT_FOUND);
     }
-    console.log('Button Found.');
 
     const [tableName, { call_code, cancel_code }] = tableEntry;
     if (code == call_code) {
-      console.log('New Call!', tableName, call_code);
+      console.log(
+        '\x1b[32mNew call to \x1b[1:33mButton %s\x1b[32m with code\x1b[0m%s',
+        tableName,
+        call_code,
+      );
       try {
         await lastValueFrom(
           this.httpService
@@ -42,17 +45,25 @@ export class ButtonCallService {
             )
             .pipe(timeout(5000)),
         ).then((r) => {
-          console.log(r.data);
+          //console.log(r.data);
         });
       } catch (error) {
-        console.log(error.status);
+        console.log(
+          '\x1b[32mError from remote host \x1b[1:31m%s: %s\x1b[0m',
+          error.status ?? 'error status undefined',
+          error.message ?? 'error message undefined',
+        );
         throw new HttpException(
           'Error: Something went wrong with remote host',
           HttpStatus.INTERNAL_SERVER_ERROR,
         );
       }
     } else if (code == cancel_code) {
-      console.log('Cancel Call!', tableName, cancel_code);
+      console.log(
+        '\x1b[32mNew cancel to \x1b[1:33mButton %s\x1b[32m with code\x1b[0m%s',
+        tableName,
+        cancel_code,
+      );
       try {
         await lastValueFrom(
           this.httpService
@@ -68,10 +79,14 @@ export class ButtonCallService {
             )
             .pipe(timeout(10000)),
         ).then((r) => {
-          console.log(r.data);
+          //console.log(r.data);
         });
       } catch (error) {
-        console.log(error.status);
+        console.log(
+          '\x1b[32mError from remote host \x1b[1:31m%s: %s\x1b[0m',
+          error.status ?? 'error status undefined',
+          error.message ?? 'error message undefined',
+        );
         throw new HttpException(
           'Error: Something went wrong',
           HttpStatus.INTERNAL_SERVER_ERROR,
@@ -113,7 +128,11 @@ export class ButtonCallService {
         console.log(r.data);
       });
     } catch (error) {
-      console.log(error.status);
+      console.log(
+        '\x1b[32mError from local transmit host \x1b[1:31m%s: %s\x1b[0m',
+        error.status ?? 'error status undefined',
+        error.message ?? 'error message undefined',
+      );
       throw new HttpException(
         'Error: Something went wrong with transmit',
         HttpStatus.INTERNAL_SERVER_ERROR,
