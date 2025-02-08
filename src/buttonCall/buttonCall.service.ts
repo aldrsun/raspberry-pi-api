@@ -52,7 +52,7 @@ export class ButtonCallService {
         });
       } catch (error) {
         console.log(
-          '\x1b[32mError from remote host \x1b[1;31m%s: %s\x1b[0m',
+          '\x1b[1;31mError from remote host \x1b[0;31m%s: %s\x1b[0m',
           error.status ?? 'error status undefined',
           error.message ?? 'error message undefined',
         );
@@ -89,7 +89,7 @@ export class ButtonCallService {
         });
       } catch (error) {
         console.log(
-          '\x1b[32mError from remote host \x1b[1;31m%s: %s\x1b[0m',
+          '\x1b[1;31mError from remote host \x1b[0;31m%s: %s\x1b[0m',
           error.status ?? 'error status undefined',
           error.message ?? 'error message undefined',
         );
