@@ -7,11 +7,11 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 
-@Controller('button-calls')
+@Controller()
 export class ButtonCallController {
   constructor(private readonly buttonCallService: ButtonCallService) {}
 
-  @Post()
+  @Post('/button-calls')
   createButtonCall(@Body() body: { code: number }) {
     if (!body.code) {
       throw new HttpException('Invalid Code', HttpStatus.BAD_REQUEST);
