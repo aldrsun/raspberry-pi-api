@@ -61,7 +61,7 @@ export class ButtonCallService {
                 },
               },
             )
-            .pipe(timeout(5000)),
+            .pipe(timeout(10000)),
         ).then((r) => {
           console.log(
             '%s \x1b[1;32m%s\x1b[0m',
@@ -131,6 +131,12 @@ export class ButtonCallService {
   }
 
   async transmit(location: number, tableName: string) {
+    console.log(
+      '\x1b[0;32mTransmit request received with Button \x1b[1;33m%s\x1b[0;2m and Location \x1b[1;33m%s\x1b[0m',
+      tableName,
+      location,
+    );
+
     if (location != 2) {
       throw new HttpException('Unsupported location', HttpStatus.NOT_FOUND);
     }
@@ -146,11 +152,7 @@ export class ButtonCallService {
         this.httpService
           .post(
             this.transmitUrl,
-            {
-              hour: this.getCurrentTime(),
-              location: location,
-              tableName: tableName,
-            },
+            { code: tableEntry[1]['cancel_code'] },
             {
               headers: {
                 'Content-Type': 'application/json',
@@ -168,6 +170,7 @@ export class ButtonCallService {
         error.status ?? 'error status undefined',
         error.message ?? 'error message undefined',
       );
+
       throw new HttpException(
         'Error: Something went wrong with transmit',
         HttpStatus.INTERNAL_SERVER_ERROR,
