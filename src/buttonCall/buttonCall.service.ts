@@ -49,7 +49,11 @@ export class ButtonCallService {
           this.httpService
             .post(
               this.remoteUrl,
-              { location: 2, tableName: tableName },
+              {
+                hour: this.getCurrentTime(),
+                location: 2,
+                tableName: tableName,
+              },
               {
                 headers: {
                   'Content-Type': 'application/json',
@@ -89,7 +93,11 @@ export class ButtonCallService {
           this.httpService
             .patch(
               this.remoteUrl,
-              { location: 2, tableName: tableName },
+              {
+                hour: this.getCurrentTime(),
+                location: 2,
+                tableName: tableName,
+              },
               {
                 headers: {
                   'Content-Type': 'application/json',
@@ -138,7 +146,11 @@ export class ButtonCallService {
         this.httpService
           .post(
             this.transmitUrl,
-            { location: location, tableName: tableName },
+            {
+              hour: this.getCurrentTime(),
+              location: location,
+              tableName: tableName,
+            },
             {
               headers: {
                 'Content-Type': 'application/json',
